@@ -1,0 +1,52 @@
+
+<div class="search-container">
+  <div>
+    <input type="text" placeholder="Search flight number..." [(ngModel)]="flightNumber" (ngModelChange)="getFlightNumber()">
+  </div>
+  <div>
+    <input type="text" placeholder="Search airline name..." [(ngModel)]="airlineName" (ngModelChange)="getAirlineName()">
+  </div>
+  
+  
+</div>
+
+<br><br><br>
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+<table id="customers"> <div *ngIf="!isLoading">
+    <tr>
+      <th>Schedule</th>
+      <th>Flight</th>
+      <th>Airline</th>
+      <th>Airport</th>
+      <th>Terminal</th>
+      <th>Status</th>
+      <th></th>
+    </tr>
+  
+   
+      <tr *ngFor="let item of DataList | paginate : {itemsPerPage:20,currentPage:p};let index=index">
+        <td>{{item.arrival.scheduled}}</td>
+        <td><u (click)="togglePopup(item.flight)">{{item.flight.number}}</u></td>
+        <td>{{item.airline.name}}</td>
+        <td>{{item.arrival.airport}}</td>
+        <td>{{item.arrival.terminal}}</td>
+        <td>Scheduled</td>
+        
+        <div class="popup" id="popup-1">
+          <div class="overlay"></div>
+          <div class="content">
+            <div class="close-btn" (click)="removePopup()">&times;</div>
+            <h1>Flight : {{flight.number}}</h1>
+            <p>IATA : {{flight.iata}}</p>
+            <p>ICAO : {{flight.icao}}</p>
+  
+          </div>
+        </div>
+  
+      </tr>
+    </div>
+  </table>
+  
+  <br>
+  <pagination-controls style="text-align: center;" (pageChange)="p = $event"></pagination-controls>
+  <br><br>
